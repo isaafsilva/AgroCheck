@@ -37,15 +37,7 @@ html, body, [class*="css"] {
     padding-bottom: 3rem;
 }
 
-header {
-    visibility: hidden;
-}
-
-#MainMenu {
-    visibility: hidden;
-}
-
-footer {
+header, #MainMenu, footer {
     visibility: hidden;
 }
 
@@ -134,6 +126,7 @@ footer {
     padding: 25px;
     margin-top: 12px;
     box-shadow: 0 5px 18px rgba(30, 70, 45, 0.05);
+    min-height: 115px;
 }
 
 .result-label {
@@ -146,7 +139,7 @@ footer {
 
 .result-name {
     color: #174e32;
-    font-size: 27px;
+    font-size: 24px;
     font-weight: 800;
     margin-top: 8px;
 }
@@ -160,35 +153,73 @@ footer {
 
 /* Probabilidades */
 
-.probability-card {
+.probability-item {
     background: white;
     border: 1px solid #e2ebe3;
-    border-radius: 15px;
-    padding: 18px;
-    margin: 10px 0;
+    border-radius: 14px;
+    padding: 17px 20px;
+    margin: 12px 0;
+}
+
+.probability-item.top-item {
+    background: #f0f7f0;
+    border: 1px solid #b8d7be;
 }
 
 .probability-header {
     display: flex;
     justify-content: space-between;
-    gap: 10px;
-    color: #294b36;
-    font-size: 14px;
-    font-weight: 700;
-    margin-bottom: 10px;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
 }
 
-.progress-bg {
+.probability-name {
+    color: #294b36;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.top-item .probability-name {
+    color: #174e32;
+    font-weight: 800;
+}
+
+.probability-value {
+    color: #174e32;
+    font-size: 15px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.probability-tag {
+    display: inline-block;
+    background: #dcefe0;
+    color: #23734a;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    padding: 4px 9px;
+    border-radius: 20px;
+    margin-left: 7px;
+}
+
+.probability-bar {
+    width: 100%;
     height: 10px;
-    background: #e9f0e9;
+    background: #e8efe8;
     border-radius: 20px;
     overflow: hidden;
 }
 
-.progress-fill {
-    height: 10px;
-    background: linear-gradient(90deg, #4b9b67, #23734a);
+.probability-fill {
+    height: 100%;
     border-radius: 20px;
+    background: linear-gradient(90deg, #80bd8e, #23734a);
+}
+
+.top-item .probability-fill {
+    background: linear-gradient(90deg, #48a76b, #145b35);
 }
 
 /* Aviso */
@@ -359,24 +390,25 @@ if "resultado_analise" in st.session_state:
     col1, col2 = st.columns(2)
 
     with col1:
-        st.markdown("""
+        st.markdown(f"""
         <div class="result-card">
             <div class="result-label">Possível identificação</div>
-            <div class="result-name">🍃 """ + classes[indice] + """</div>
+            <div class="result-name">🍃 {classes[indice]}</div>
         </div>
         """, unsafe_allow_html=True)
 
     with col2:
-        st.markdown("""
+        st.markdown(f"""
         <div class="result-card">
             <div class="result-label">Pontuação do modelo</div>
-            <div class="result-percent">""" + f"{confianca:.2%}" + """</div>
+            <div class="result-percent">{confianca:.2%}</div>
         </div>
         """, unsafe_allow_html=True)
 
     # -------------------------------------
     # PROBABILIDADES
     # -------------------------------------
+
 
     st.markdown(
         '<div class="section-title">📊 Probabilidade por categoria</div>',
@@ -385,29 +417,36 @@ if "resultado_analise" in st.session_state:
 
     st.markdown(
         '<div class="section-description">'
-        'Distribuição das pontuações entre as quatro categorias analisadas.'
+        'Pontuações geradas pelo modelo para cada categoria analisada.'
         '</div>',
         unsafe_allow_html=True
     )
 
     ranking = np.argsort(previsoes)[::-1]
 
-    for i in ranking:
+    dados = {
+        "Categoria": [classes[i] for i in ranking],
+        "Pontuação": [
+            f"{float(previsoes[i]) * 100:.2f}%"
+            for i in ranking
+        ]
+    }
 
-        porcentagem = float(previsoes[i]) * 100
+    st.dataframe(
+        dados,
+        use_container_width=True,
+        hide_index=True,
+        column_config={
+            "Categoria": st.column_config.TextColumn(
+                "Categoria"
+            ),
+            "Pontuação": st.column_config.TextColumn(
+                "Pontuação",
+                help="Pontuação atribuída pelo modelo"
+            )
+        }
+    )
 
-        st.markdown(f"""
-        <div class="probability-card">
-            <div class="probability-header">
-                <span>{classes[i]}</span>
-                <span>{porcentagem:.2f}%</span>
-            </div>
-
-            <div class="progress-bg">
-                <div class="progress-fill" style="width: {porcentagem}%"></div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
 
     # -------------------------------------
     # AVISO
