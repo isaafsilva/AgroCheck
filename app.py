@@ -2,6 +2,7 @@
 import streamlit as st
 import tensorflow as tf
 import numpy as np
+import pandas as pd
 from PIL import Image
 
 # -----------------------------------------
@@ -41,43 +42,44 @@ header, #MainMenu, footer {
     visibility: hidden;
 }
 
-/* Cabeçalho */
+/* CABEÇALHO */
 
 .hero {
     background: linear-gradient(135deg, #123d2a, #23734a);
-    padding: 35px;
-    border-radius: 22px;
+    padding: 38px;
+    border-radius: 24px;
     color: white;
-    margin-bottom: 30px;
-    box-shadow: 0 8px 25px rgba(18, 61, 42, 0.13);
+    margin-bottom: 32px;
+    box-shadow: 0 10px 30px rgba(18, 61, 42, 0.15);
 }
 
 .hero-label {
     color: #b8e4c6;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 2px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
     text-transform: uppercase;
 }
 
 .hero h1 {
     color: white;
-    font-size: 38px;
-    margin: 10px 0;
+    font-size: 42px;
+    margin: 12px 0 8px 0;
     font-weight: 800;
 }
 
 .hero p {
     color: #e0eee4;
     font-size: 15px;
+    line-height: 1.6;
     margin-bottom: 0;
 }
 
-/* Seções */
+/* SEÇÕES */
 
 .section-title {
     color: #173f2c;
-    font-size: 21px;
+    font-size: 22px;
     font-weight: 800;
     margin-top: 25px;
     margin-bottom: 5px;
@@ -86,19 +88,20 @@ header, #MainMenu, footer {
 .section-description {
     color: #718078;
     font-size: 14px;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
+    line-height: 1.6;
 }
 
-/* Upload */
+/* UPLOAD */
 
 [data-testid="stFileUploader"] {
     background: white;
     border: 2px dashed #a8c9b1;
     border-radius: 16px;
-    padding: 15px;
+    padding: 16px;
 }
 
-/* Botão */
+/* BOTÃO */
 
 .stButton > button {
     background: #23734a;
@@ -115,132 +118,66 @@ header, #MainMenu, footer {
     background: #174e32;
     color: white;
     border: none;
+    transform: translateY(-1px);
 }
 
-/* Resultado */
+/* CARTÕES DE RESULTADO */
 
 .result-card {
     background: white;
     border: 1px solid #e2ebe3;
     border-radius: 18px;
-    padding: 25px;
-    margin-top: 12px;
+    padding: 24px;
+    margin-top: 10px;
     box-shadow: 0 5px 18px rgba(30, 70, 45, 0.05);
-    min-height: 115px;
+    min-height: 125px;
 }
 
 .result-label {
     color: #6c8875;
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 11px;
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .result-name {
     color: #174e32;
-    font-size: 24px;
+    font-size: 23px;
     font-weight: 800;
-    margin-top: 8px;
+    margin-top: 12px;
 }
 
 .result-percent {
     color: #23734a;
-    font-size: 34px;
+    font-size: 35px;
     font-weight: 800;
     margin-top: 8px;
 }
 
-/* Probabilidades */
-
-.probability-item {
-    background: white;
-    border: 1px solid #e2ebe3;
-    border-radius: 14px;
-    padding: 17px 20px;
-    margin: 12px 0;
-}
-
-.probability-item.top-item {
-    background: #f0f7f0;
-    border: 1px solid #b8d7be;
-}
-
-.probability-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
-.probability-name {
-    color: #294b36;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.top-item .probability-name {
-    color: #174e32;
-    font-weight: 800;
-}
-
-.probability-value {
-    color: #174e32;
-    font-size: 15px;
-    font-weight: 800;
-    white-space: nowrap;
-}
-
-.probability-tag {
-    display: inline-block;
-    background: #dcefe0;
-    color: #23734a;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    padding: 4px 9px;
-    border-radius: 20px;
-    margin-left: 7px;
-}
-
-.probability-bar {
-    width: 100%;
-    height: 10px;
-    background: #e8efe8;
-    border-radius: 20px;
-    overflow: hidden;
-}
-
-.probability-fill {
-    height: 100%;
-    border-radius: 20px;
-    background: linear-gradient(90deg, #80bd8e, #23734a);
-}
-
-.top-item .probability-fill {
-    background: linear-gradient(90deg, #48a76b, #145b35);
-}
-
-/* Aviso */
+/* AVISO */
 
 .notice {
     background: #edf4ed;
+    border: 1px solid #dce9dd;
     border-left: 4px solid #43865a;
-    padding: 16px;
-    border-radius: 8px;
+    padding: 18px;
+    border-radius: 12px;
     color: #496451;
     font-size: 13px;
-    margin-top: 25px;
+    line-height: 1.7;
+    margin-top: 28px;
 }
 
-/* Rodapé */
+/* RODAPÉ */
 
 .footer {
     text-align: center;
     color: #91a197;
     font-size: 12px;
-    margin-top: 40px;
+    margin-top: 45px;
+    padding-top: 20px;
+    border-top: 1px solid #e1e9e1;
 }
 
 </style>
@@ -309,6 +246,7 @@ imagem = st.file_uploader(
     type=["jpg", "jpeg", "png"],
     help="Formatos aceitos: JPG, JPEG e PNG."
 )
+
 
 if imagem is not None:
 
@@ -379,36 +317,37 @@ if "resultado_analise" in st.session_state:
         unsafe_allow_html=True
     )
 
-    st.markdown("""
-    <div class="section-description">
-        Abaixo estão os resultados gerados pelo modelo de inteligência artificial.
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-description">'
+        'Confira a identificação sugerida e as pontuações geradas pelo modelo.'
+        '</div>',
+        unsafe_allow_html=True
+    )
 
-    st.success("Análise concluída!")
+    st.success("Análise concluída com sucesso!")
 
     col1, col2 = st.columns(2)
 
     with col1:
         st.markdown(f"""
         <div class="result-card">
-            <div class="result-label">Possível identificação</div>
-            <div class="result-name">🍃 {classes[indice]}</div>
+            <div class="result-label">🍃 Possível identificação</div>
+            <div class="result-name">{classes[indice]}</div>
         </div>
         """, unsafe_allow_html=True)
 
     with col2:
         st.markdown(f"""
         <div class="result-card">
-            <div class="result-label">Pontuação do modelo</div>
+            <div class="result-label">📊 Pontuação do modelo</div>
             <div class="result-percent">{confianca:.2%}</div>
         </div>
         """, unsafe_allow_html=True)
 
+
     # -------------------------------------
     # PROBABILIDADES
     # -------------------------------------
-
 
     st.markdown(
         '<div class="section-title">📊 Probabilidade por categoria</div>',
@@ -424,25 +363,26 @@ if "resultado_analise" in st.session_state:
 
     ranking = np.argsort(previsoes)[::-1]
 
-    dados = {
+    tabela = pd.DataFrame({
         "Categoria": [classes[i] for i in ranking],
-        "Pontuação": [
-            f"{float(previsoes[i]) * 100:.2f}%"
-            for i in ranking
+        "Pontuação (%)": [
+            float(previsoes[i]) * 100 for i in ranking
         ]
-    }
+    })
 
     st.dataframe(
-        dados,
+        tabela,
         use_container_width=True,
         hide_index=True,
         column_config={
             "Categoria": st.column_config.TextColumn(
                 "Categoria"
             ),
-            "Pontuação": st.column_config.TextColumn(
-                "Pontuação",
-                help="Pontuação atribuída pelo modelo"
+            "Pontuação (%)": st.column_config.ProgressColumn(
+                "Pontuação (%)",
+                format="%.2f%%",
+                min_value=0,
+                max_value=100
             )
         }
     )
@@ -468,6 +408,7 @@ if "resultado_analise" in st.session_state:
 
 st.markdown("""
 <div class="footer">
-    AGROCHECK • Inteligência artificial aplicada à agricultura
+    🌱 AGROCHECK<br>
+    Inteligência artificial aplicada à agricultura
 </div>
 """, unsafe_allow_html=True)
